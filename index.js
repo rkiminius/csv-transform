@@ -48,13 +48,27 @@ const outputFile = 'added-categories.csv'
             product[0]['price'] = biggestPrice.toString()
             // set biggest price end
 
-            // join media_images
-            let mediaIamges = product.filter(item => item['_media_image'].length > 0).map(el => el['_media_image']);
+            // // join media_images
+            // let mediaIamges = product.filter(item => item['_media_image'].length > 0).map(el => el['_media_image']);
+            // // console.log(mediaIamges)
+            // product[0]['additional_images'] = mediaIamges.join(',')
+            // // join media_images end
 
-            // console.log(mediaIamges)
+            // // join links_related_sku
+            // let links_related_sku = product.filter(item => item['_links_related_sku'].length > 0).map(el => el['_links_related_sku']);
+            // // console.log(mediaIamges)
+            // product[0]['_links_related_sku_new'] = links_related_sku.join(',')
+            // // join links_related_sku end
 
-            product[0]['additional_images'] = mediaIamges.join(',')
-            // join media_images end
+            // // join _associated_sku
+            // let associated_sku = product.filter(item => item['_associated_sku'].length > 0).map(el => el['_associated_sku']);
+            // // console.log(mediaIamges)
+            // product[0]['_associated_sku_new'] = associated_sku.join(',')
+            // // join _associated_sku end
+
+            joinProductColumnRow(product, '_media_image', 'additional_images')
+            joinProductColumnRow(product, '_links_related_sku', '_links_related_sku_new')
+            joinProductColumnRow(product, '_associated_sku', '_associated_sku_new')
 
             return product
         });
@@ -81,4 +95,9 @@ const outputFile = 'added-categories.csv'
                 console.log(`output > ${outputFile}`);
               });
         })
+    }
+
+    function joinProductColumnRow(product, columnName, newColumnName) {
+        const associated_sku = product.filter(item => item[columnName].length > 0).map(el => el[columnName]);
+        product[0][newColumnName] = associated_sku.join(',')
     }
